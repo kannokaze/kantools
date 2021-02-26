@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>字符替换生成</title>
+    <link rel="stylesheet" href="../lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="icon" href="media/logo-m.png">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/public.css" media="all">
+    <style type="text/css">
+    /* #out{
+                transition: all .25s ease-in;
+            }
+            #out:hover{
+                background-color: #EEEEEE;
+            } */
+    </style>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <style type="text/css">
+        textarea{  
+            border:0;  
+            background-color:transparent;  
+            /*scrollbar-arrow-color:yellow;  
+            scrollbar-base-color:lightsalmon;  
+            overflow: hidden;*/  
+            color: #666464;  
+            height: auto;
+            user-select: none;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <h2>文本生成器v1.1</h2> -->
+    <div class="layuimini-container">
+        <div class="layuimini-main">
+            <div class="layui-row layui-col-space20">
+                <div class="layui-col-md6">
+                    <div class="bar">
+                        <label for="" class="title">模式</label>
+                        <div class="content">
+                            <label class="title_2">常规</label>
+                            <div class="form-block">
+                                <button class="way" id="">手动</button>
+                                <button class="way" id="">自动</button>
+                            </div>
+                            <div class="form-block">
+                                <input type="text" name="" id="postfix" value="" placeholder="添加变量后缀,可选" />
+                            </div>
+                        </div>
+                        <div class="content">
+                            <label class="title_2">特殊</label>
+                            <div class="layui-form-item">
+                                <!-- <label class="layui-form-label">规则</label> -->
+                                <div class="form-block layui-input-block">
+                                    <div class="form-block layui-input-inline" style="vertical-align: bottom;">
+                                        <input class="layui-input" type="text" name="" id="rule" value="" placeholder="替换#代替,排序*代替" />
+                                    </div>
+                                    <button class="mode layui-btn layui-btn-normal" id="">自定义规则</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md6">
+                    <div class="bar">
+                        <label for="" class="title">设置</label>
+                        <div class="content">
+                            <label id="type" class="title_2">当前模式：自动</label>
+                            <div class="form-block">
+                                <div class="layui-form-item" id="autoSetting">
+                                    <label class="layui-form-label">文档地址：</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" name="" class="layui-input" placeholder="请输入文档地址" lay-verify=”required|url”>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item" id="unautoSetting">
+                                    <label class="layui-form-label">参数列表：</label>
+                                    <div class="layui-input-block">
+                                        <textarea id="in_input" required lay-verify="required" placeholder="请输入参数列表" class="layui-textarea"></textarea>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <div class="layui-input-block">
+                                        <div class="layui-btn-group">
+                                            <button type="button" id="sub" class="layui-btn">生成</button>
+                                            <button type="button" id="reset1" class="layui-btn">重新输入</button>
+                                            <button type="button" id="reset2" class="layui-btn">清空结果</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bar">
+                <label for="" class="title">生成结果</label>
+                <div class="content">
+                    <!-- <p id="out"></p> -->
+                    <div class="layui-row layui-col-space10">
+                        <div class="layui-col-md4">
+                            <div class="layui-card">
+                                <div class="layui-card-header">
+                                请求参数
+                                <button id="copy">复制</button>
+                            </div>
+                                <div class="layui-card-body">
+                                    <textarea id="out1" class="out"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-col-md4">
+                            <div class="layui-card">
+                                <div class="layui-card-header">excel参数</div>
+                                <div class="layui-card-body">
+                                    <p id="out2" class="out"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-col-md4">
+                            <div class="layui-card">
+                                <div class="layui-card-header">var参数</div>
+                                <div class="layui-card-body">
+                                    <p id="out3" class="out"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="content">
+                    <!-- <p id="out"></p> -->
+                    <div class="layui-row layui-col-space10">
+                        <div class="layui-col-md4">
+                            <div class="layui-card">
+                                <div class="layui-card-header">空值参数</div>
+                                <div class="layui-card-body">
+                                    <p id="out4" class="out"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-col-md4">
+                            <div class="layui-card">
+                                <div class="layui-card-header">excel参数</div>
+                                <div class="layui-card-body">
+                                    <p id="out5" class="out"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-col-md4">
+                            <div class="layui-card">
+                                <div class="layui-card-header">var参数</div>
+                                <div class="layui-card-body">
+                                    <p id="out6" class="out"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="../lib/jquery-3.4.1/jquery-3.4.1.min.js" charset="utf-8"></script>
+<script src="../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+<script type="text/javascript">
+! function() {
+
+    layui.use('layer', function() {
+        var layer = layui.layer;
+
+        var temp = new Array();
+        var btns = document.getElementsByClassName("way");
+        var mode = null;
+        var way = 1;
+        // window.onload = function(e) {
+        //     var btnMune = {
+
+        //     }
+        //     for (var i = 0; i < btns.length; i++) {
+        //         var btn = btns[i];
+        //         //将btn所对应的下标保存在btn上
+        //         btn.index = i;
+        //         btn.onclick = function() {
+
+        //             if (this.index == 0) {
+        //                 temp = '"#":${#},';
+        //                 mode = 0;
+        //             } else if (this.index == 1) {
+        //                 temp = '"#":"",';
+        //                 mode = 1;
+        //             } else if (this.index == 2) {
+        //                 temp = 'String # = exce.getParamData(${__counter(,)}-1,*);';
+        //                 mode = 2;
+        //             } else if (this.index == 3) {
+        //                 temp = 'vars.put("#",#);';
+        //                 mode = 3;
+        //             } else if (this.index == 4) {
+        //                 temp = '#参数值为';
+        //                 mode = 4;
+        //             } else {
+        //                 if (document.getElementById("rule").value == null || document.getElementById("rule").value == "") {
+        //                     alert("你还没输入规则！模式未变化");
+        //                     return;
+        //                 } else {
+        //                     temp = document.getElementById("rule").value;
+        //                     mode = 999;
+        //                 }
+        //             }
+
+        //             document.getElementById("type").innerHTML = "当前模式：" +
+        //                 btns[this.index].innerHTML + "<br>";
+        //         };
+        //     }
+        // }
+        window.onload = function(e) {
+            var btnMune = {
+
+            }
+            for (var i = 0; i < btns.length; i++) {
+                var btn = btns[i];
+                //将btn所对应的下标保存在btn上
+                btn.index = i;
+
+                if (way == i) {
+                    btns[i].classList.add('selected');
+                }
+
+                btn.onclick = function() {
+
+                    if (this.index == 0) {
+                        way = 0;
+                        document.getElementsByClassName('selected')[0].classList.remove('selected');
+                        btns[this.index].classList.add('selected');
+
+                        changeModeSetting(true, afterSetting, btns[this.index])
+                    } else if (this.index == 1) {
+                        way = 1;
+                        document.getElementsByClassName('selected')[0].classList.remove('selected');
+                        btns[this.index].classList.add('selected');
+
+                        changeModeSetting(false, afterSetting, btns[this.index]);
+                    } else {
+                        if (document.getElementById("rule").value == null || document.getElementById("rule").value == "") {
+                            // alert("你还没输入规则！模式未变化");
+                            layer.open({
+                                title: '提示',
+                                content: '你还没输入规则！模式未变化'
+                            });
+                            return;
+                        } else {
+                            way = 999;
+                        }
+                    }
+
+                    document.getElementById("type").innerHTML = "当前模式：" +
+                        btns[this.index].innerHTML + "<br>";
+                };
+            }
+        }
+
+        temp[0] = '"#":${#},';
+        temp[1] = '"#":"",';
+        temp[2] = 'String # = exce.getParamData(${__counter(,)}-1,*);';
+        temp[3] = 'vars.put("#",#);';
+        temp[4] = '#参数值为';
+        temp[5] = document.getElementById("rule").value;
+
+        function changeModeSetting(m, callback, ele) {
+            return ele;
+        }
+
+        function afterSetting() {
+
+        }
+
+        function creatStr(data, te, postfix, mode) {
+            // 生成请求参数的模式下
+            if (mode == 0) {
+                if (postfix.length > 0) {
+                    te = te.replace(te.substring(te.lastIndexOf("#"), te.length + 2), "#_" + postfix + "},");
+                }
+                for (var i = 0; i < data.length; i++) {
+                    if (i == 0) {
+                        document.getElementById("out1").innerHTML += "{<br>"
+                    }
+                    if (i == data.length - 1) {
+                        document.getElementById("out1").innerHTML += "&nbsp;&nbsp;&nbsp;&nbsp;" + te.replace(",", "").replace(/\#/g, data[
+                            i]).replace(/\*/g,
+                            i) + "<br>}<br>";
+                    } else {
+                        document.getElementById("out1").innerHTML += "&nbsp;&nbsp;&nbsp;&nbsp;" + te.replace(/\#/g, data[i]).replace(
+                            /\*/g,
+                            i) + "<br>"
+                    }
+                }
+                return true;
+                // 
+            } else if (mode == 1) {
+                if (postfix.length > 0) {
+                    te = te.replace(te.substring(te.lastIndexOf("#"), te.length + 2), "#_" + postfix + "},");
+                }
+                for (var i = 0; i < data.length; i++) {
+                    if (i == 0) {
+                        document.getElementById("out4").innerHTML += "{<br>"
+                    }
+                    if (i == data.length - 1) {
+                        document.getElementById("out4").innerHTML += "&nbsp;&nbsp;&nbsp;&nbsp;" + te.replace(",", "").replace(/\#/g, data[
+                            i]).replace(/\*/g,
+                            i) + "<br>}<br>";
+                    } else {
+                        document.getElementById("out4").innerHTML += "&nbsp;&nbsp;&nbsp;&nbsp;" + te.replace(/\#/g, data[i]).replace(
+                            /\*/g,
+                            i) + "<br>"
+                    }
+                }
+                return true;
+            } else if (mode == 2) {
+                for (var i = 0; i < data.length; i++) {
+                    document.getElementById("out2").innerHTML += te.replace(/\#/g, data[i]).replace(/\*/g, i) + "<br>";
+                }
+                return true;
+            } else if (mode == 3) {
+                if (postfix.length > 0) {
+                    te = te.replace("#", "#_" + postfix);
+                }
+                for (var i = 0; i < data.length; i++) {
+                    document.getElementById("out3").innerHTML += te.replace(/\#/g, data[i]).replace(/\*/g, i) + "<br>";
+                }
+                return true;
+            } else if (mode == 999) {
+                if (postfix.length > 0) {
+                    te = te.replace("#", "#_" + postfix);
+                }
+
+                for (var i = 0; i < data.length; i++) {
+                    document.getElementById("out5").innerHTML += te.replace(/\#/g, data[i]).replace(/\*/g, i) + "<br>";
+                }
+                return true;
+            } else {
+                for (var i = 0; i < data.length; i++) {
+                    document.getElementById("out6").innerHTML += te.replace(/\#/g, data[i]).replace(/\*/g, i) + "<br>";
+                }
+                return true;
+            }
+
+            return false;
+        }
+
+
+        document.getElementById("sub").onclick = function() {
+            var parmas = null;
+            var in_input = document.getElementById("in_input");
+
+            if (in_input) {
+                parmas = in_input.value;
+            } else {
+                parmas = "";
+            }
+
+
+            var postfix = document.getElementById("postfix").value;
+
+            if (temp == null) {
+                // alert("你没有选择模式");
+                layer.open({
+
+                    title: '提示',
+                    content: '你没有选择模式'
+                });
+                return;
+            }
+
+            if (parmas == null || parmas == "") {
+                // alert("你没有输入参数");
+                layer.open({
+
+                    title: '提示',
+                    content: '你没有输入参数'
+                });
+                return;
+            }
+
+
+            if (parmas.indexOf("\t") > -1) {
+
+                layer.open({
+                    title: '提示',
+                    content: '你输入的参数前后存在制表符'
+                });
+                return;
+            }
+
+
+            if (parmas.indexOf(" ") > -1 && !te.test(parmas)) {
+                layer.open({
+                    title: '提示',
+                    content: '你输入的参数存在空格'
+                });
+                return;
+            }
+
+            if (parmas.indexOf("\n\n") > -1 || parmas.substr(parmas.length - 1) == "\n") {
+                layer.open({
+                    title: '提示',
+                    content: '你输入的参数列表存在空行'
+                });
+                return;
+            }
+
+            var te = new RegExp("\t.*");
+            if (te.test(parmas) && te.test(parmas)) {
+                layer.open({
+                    title: '提示',
+                    content: '你输入的参数带其他的字符'
+                });
+                return;
+            }
+
+            for (var i = temp.length - 1; i >= 0; i--) {
+                creatStr(parmas.split("\n"), temp[i], postfix, i);
+            }
+
+        };
+
+        // 清空参数
+        document.getElementById("reset1").onclick = function() {
+            var out = document.getElementById("out1");
+            var out = document.getElementById("out2");
+            var out = document.getElementById("out3");
+            var out = document.getElementById("out4");
+            var out = document.getElementById("out5");
+            var out = document.getElementById("out6");
+            out1.innerHTML = "";
+            out2.innerHTML = "";
+            out3.innerHTML = "";
+            out4.innerHTML = "";
+            out5.innerHTML = "";
+            out6.innerHTML = "";
+            var aaa = document.getElementById("in_input");
+            aaa.value = "";
+        }
+        // 清空结果
+        document.getElementById("reset2").onclick = function() {
+            var out = document.getElementById("out1");
+            var out = document.getElementById("out2");
+            var out = document.getElementById("out3");
+            var out = document.getElementById("out4");
+            var out = document.getElementById("out5");
+            var out = document.getElementById("out6");
+            out1.innerHTML = "";
+            out2.innerHTML = "";
+            out3.innerHTML = "";
+            out4.innerHTML = "";
+            out5.innerHTML = "";
+            out6.innerHTML = "";
+        }
+    });
+
+    //复制按钮事件绑定
+    $("#copy").on("click", function() {
+        $("#out1").select();
+        document.execCommand("Copy");
+    })
+}(window);
+</script>
+
+</html>
