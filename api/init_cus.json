@@ -39,7 +39,14 @@
               "href": "page/data-creater.html",
               "icon": "fa fa-shield",
               "target": "_self"
+            },
+            {
+              "title": "数据生成",
+              "href": "page/assistant.html",
+              "icon": "fa fa-snowflake-o",
+              "target": "_self"
             }
+
           ]
         },
                 {
