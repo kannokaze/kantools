@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>随机号码生成</title>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <div>
+        <label>请输入生成数量：</label><input type="" name="" id="num">
+        <button id="gen">生成</button>
+    </div>
+    <div>
+        <p class="out"></p>
+        <p class="out"></p>
+    </div>
+    <script type="text/javascript">
+    window.onload = function() {
+        document.getElementById('gen').onclick = function() {
+            var num = document.getElementById('num').value;
+            var fristList = [130, 131, 132, 145, 155, 156, 185, 186, 176, 175, 133, 149, 153, 180, 181, 189, 177, 134, 139, 147, 150, 152];
+            // print_re_html("class", "out0", print_re(nuu(fristList, num))
+            download_file(num + ".csv",print_re(nuu(fristList, num)));
+        }
+
+        function print_re_html(attr, ele, resultString) {
+            var obj = null;
+            if (attr == "id") {
+                obj = document.getElementById(ele);
+            } else if (attr.indexOf("class") != -1) {
+                obj = document.getElementsByClassName(ele.replace(/\d+/g, ''));
+            } else if (attr == "tag") {
+                obj = document.getElementByTagNam(ele);
+            } else {
+                throw new Error("parmas 1 is not a type!");
+            }
+
+            if (attr.indexOf("class") != -1) {
+                var i = parseInt(ele.replace(/[^0-9]/ig, ""));
+                obj[i].innerHTML = resultString;
+            } else {
+                obj.innerHTML = resultString;
+            }
+
+            // console.log( i, obj,obj[i]);
+        }
+
+        function print_re(result, resultString) {
+            var resultString = "";
+            for (var i = result.length - 1; i >= 0; i--) {
+                resultString += result[i] + ",\n";
+            }
+            return resultString;
+        }
+
+        function nuu(numList, num) {
+            var rel = [];
+            var last = null;
+
+            for (var i = num - 1; i >= 0; i--) {
+                rel[i] = numList[Math.floor(Math.random() * numList.length)].toString();
+                last = Math.floor(Math.random() * 100000000).toString();
+                if (last.length < 8) {
+                    last = d(last);
+                }
+                rel[i] = rel[i] + last;
+            }
+            return rel;
+        }
+
+
+        function download_file(file_name, content, o = true) {
+            if (o) {
+                content = '\ufeff' + content
+            }
+            var aTag = document.createElement('a');
+            var blob = new Blob([content]);
+            aTag.download = file_name;
+            aTag.href = URL.createObjectURL(blob);
+            aTag.click();
+            URL.revokeObjectURL(blob);
+        }
+
+        function d(a) {
+            for (var i = 8 - a.length; i > 0; i--) {
+                var temp = Math.floor(Math.random() * 10).toString();
+                a = a + temp;
+            }
+            return a;
+        }
+    }
+    </script>
+</body>
+
+</html>

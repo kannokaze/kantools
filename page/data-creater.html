@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>自动生成简单测试用例</title>
+		<link rel="stylesheet" href="../lib/layui-v2.5.5/css/layui.css" media="all">
+		<link rel="stylesheet" href="../css/main.css">
+		<link rel="icon" href="media/logo-m.png">
+		<link rel="stylesheet" href="../css/public.css" media="all">
+	</head>
+	<body>
+		<!-- <h2>生成简单测试用例v1.0</h2> -->
+		<div class="layuimini-container">
+			<div class="layuimini-main">
+				<div class="bar">
+					<label for="" class="title">参数列表</label>
+					<div class="content">
+						<div class="layui-row">
+							<div class="layui-col-md9">
+								<textarea rows="11" cols="50" id="params" class="layui-textarea" placeholder="参数之间换行,参数类型空格">
+a string @mock=安排
+b number @mock=1
+c string @mock=你了</textarea>
+							</div>
+							<div class="layui-col-md3">
+
+								<div class="layui-card">
+									<div class="layui-card-header">提示</div>
+									<div class="layui-card-body">
+										<p class="layui-text">1.参数列表需提供三个数据，分别为参数名、参数类型、@mock模拟正确数据</p>
+										<p class="layui-text">2.上述各部分需要使用空格分开</p>
+										<p class="layui-text">3.@mock数据包含字符串的，请不要加“”，例如@mock=正确值</p>
+										<p class="layui-text">4.如果参数有默认值，请使用@mock=["默认值1","默认值2"]表示</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="bar">
+					<label for="" class="title">参数用例包含</label>
+					<div class="content">
+						<label class="title_2">常规</label>
+						<div class="form-block">
+
+							<div id="" class="rule-container">
+								<input type="checkbox" name="rule" value="" checked id="r1" /><label for="r1">为null</label>
+							</div>
+							<div class="rule-container">
+								<input type="checkbox" name="rule" value="" checked id="r2" /><label for="r2">空格</label>
+							</div>
+							<div class="rule-container">
+								<input type="checkbox" name="rule" value="" checked id="r3" /><label for="r3">纯数字</label>
+							</div>
+							<div class="rule-container">
+								<input type="checkbox" name="rule" value="" checked id="r4" /><label for="r4">纯中文</label>
+							</div>
+							<div class="rule-container">
+								<input type="checkbox" name="rule" value="" checked id="r5" /><label for="r5">纯特殊字符</label>
+							</div>
+							<hr>
+							<div class="rule-container">
+								<input type="checkbox" name="rule" value="" checked id="r6" /><label for="r6">英文+数字</label>
+							</div>
+							<div class="rule-container">
+								<input type="checkbox" name="rule" value="" checked id="r7" /><label for="r7">英文+特殊字符</label>
+							</div>
+							<div class="rule-container">
+								<input type="checkbox" name="rule" value="" checked id="r8" /><label for="r8">英文+中文</label>
+							</div>
+							<div class="rule-container">
+								<input type="checkbox" name="rule" value="" checked id="r9" /><label for="r9">英文+数字+中文</label>
+							</div>
+							<div id="" class="rule-container">
+								<input type="checkbox" name="rule" value="" checked id="r10" /><label for="r10">英文+数字+特殊字符</label>
+							</div>
+							<div class="rule-container"><input type="checkbox" name="rule" value="" checked id="r11" /><label for="r11">英文+中文+特殊字符</label></div>
+							<div class="rule-container"><input type="checkbox" name="rule" value="" checked id="r12" /><label for="r12">英文+中文+数字+特殊字符</label></div>
+							<div class="rule-container"><input type="checkbox" name="rule" value="" checked id="r13" /><label for="r13">英文+中文+特殊字符</label></div>
+							<div class="rule-container"></div>
+							<div class="rule-container"></div>
+							<div class="rule-container"></div>
+							<div class="rule-container"></div>
+							<div class="rule-container"></div>
+						</div>
+					</div>
+					<div class="content">
+						<label class="title_2">特殊</label>
+						<div class="form-block">
+							<div class="rule-container"><input type="checkbox" name="rule" value="" id="r14" /><label for="r14">日期型字符串yyyy-MM-dd</label></div>
+							<div class="rule-container"><input type="checkbox" name="rule" value="" id="r15" /><label for="r15">时间型字符串yyyy-MM-dd
+									tt:mm:ss</label></div>
+							<hr>
+							<div class="rule-container"><input type="checkbox" name="rule" value="" id="r16" /><label for="r16">存在默认值</label></div>
+						</div>
+					</div>
+					<div class="content">
+						<label class="title_2">自定义</label>
+						<div class="form-block">
+							<input type="text" name="" id="" value="" placeholder="支持多规则，规则之间请使用;区分" />
+							<button type="button">添加</button>
+						</div>
+					</div>
+				</div>
+
+				<div class="bar">
+
+					<label for="" class="title">生成</label>
+					<div class="content">
+						<form action="" method=""></form>
+						<div class="rule-container"><input type="radio" name="genMode" id="toJSON" /><label for="toJSON">完整json</label></div>
+						<div class="rule-container"><input type="radio" name="genMode" id="toTable" checked="checked" /><label for="toTable">参数表格</label></div>
+						<div class="rule-container"><input type="radio" name="genMode" id="toEXCEL" /><label for="toEXCEL">导出excel表格</label></div>
+
+						<button type="button" id="generate">生成</button>
+					</div>
+				</div>
+
+				<div class="bar">
+					<label for="" class="title">结果</label>
+					<div class="content">
+						<p id="result"></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		! function() {
+			function $(ele) {
+				return document.getElementById(ele);
+			}
+
+			var rules = {
+				isNull: "null",
+				isSpace: "   ",
+				isNumber: "123456",
+				isChinese: "中文",
+				isEnlish: "abc",
+				isSpecialChar: "''...#$!@&*^",
+				combEnglishNumber: "abc123",
+				combEnglishSpecial: "abc''...#$!@&*^",
+				combEnglishChinese: "abc中文",
+
+				sqlInjection: "1 or 1 =1"
+			}
+
+			var rules_array = [
+				"null", "   ", "123456", "abc", "''...#$!@&*^", "abc123", "abc''...#$!@&*^", "abc中文",
+			]
+
+			var wash_list = [],
+				th_list = [],
+				parmas_list = [],
+				type_list = [],
+				mock_list = [];
+
+			$("generate").onclick = function() {
+				if ($('params').value == null || $('params').value == "") {
+					alert("未输入参数列表");
+					return;
+				}
+
+				var temp_list = $('params').value.split("\n");
+
+				console.log(temp_list);
+
+				for (var j = 0, len = temp_list.length; j < len; j++) {
+					wash_list[j] = temp_list[j].replace(/\s+/g, "$");
+				}
+
+				console.log(wash_list);
+
+				// 保存表头
+				for (var j = 0, len = temp_list.length; j < len; j++) {
+					var index = wash_list[j].indexOf("$");
+					var lastIndex = wash_list[j].indexOf("$@mock");
+					th_list[j] = wash_list[j].substring(0, index) + "（" + wash_list[j].substring(index + 1, lastIndex) + "）";
+				}
+
+				// 保存参数名
+				for (var j = 0, len = temp_list.length; j < len; j++) {
+					var index = wash_list[j].indexOf("$");
+					parmas_list[j] = wash_list[j].substring(0, index);
+				}
+
+				// 保存正确的参数type
+				for (var j = 0, len = temp_list.length; j < len; j++) {
+					var lastIndex = wash_list[j].lastIndexOf("$");
+					var index = wash_list[j].indexOf("$");
+					type_list[j] = wash_list[j].substring(index + 1, lastIndex);
+				}
+
+				// 保存正确的mock数据
+				for (var j = 0, len = temp_list.length; j < len; j++) {
+					var index = wash_list[j].indexOf("$@mock");
+					mock_list[j] = wash_list[j].substring(index + 7, wash_list[j].length);
+				}
+
+				console.log(th_list);
+				console.log(parmas_list);
+				console.log(type_list);
+				console.log(mock_list);
+
+
+				// print_JOSN(wash_list);
+				print_table(generater(rules_array, parmas_list, type_list, mock_list), th_list);
+			}
+
+			/**
+			 * < 核心 > 构建器
+			 * @param {Object} rules_array
+			 * @param {Object} parmas
+			 * @param {Object} type
+			 * @param {Object} mock
+			 */
+			function generater(rules_array, parmas, type, mock) {
+				var yongliji = []; // 所有测试用例
+				var yongli = []; // 单个测试用例
+				// var yongliziji = []; // 单个参数的子集
+
+				var j = 0;
+				var i = 0;
+
+				// 写入正确的数值
+				for (; i < parmas.length * rules_array.length; i++) {
+					for (; j < parmas.length; j++) {
+						yongli[j] = mock[j];
+					}
+					yongliji[i] = yongli;
+				}
+				console.log(i);
+
+				// 写入异常数值
+				// for (var x = 0; x < j; x++) {
+				// 	for (var z = 0; z < i / parmas.length; z++) {
+				// 		// if(x == z%parmas.length){
+				// 		yongliji[z][x] = rules_array[z % rules_array.length];
+				// 		console.log(yongliji[z], z, x);
+				// 		// }
+				// 	}
+				// }
+
+				console.log(yongliji)
+				return yongliji;
+			}
+
+			// 打印JSON格式数据
+			function print_JOSN(json) {
+				$('result').innerHTML = json;
+			}
+
+			// 打印表格格式数据
+			function print_table(list, th_list) {
+				var _table = document.createElement("table"); //创建表格
+				var _thead = document.createElement("thead"); //创建表格
+				var _tr1 = document.createElement("tr"); //创建行
+
+				if (list.length < 1) {
+					var node = document.createTextNode("暂无数据");
+					_table.appendChild(node);
+					$('result').appendChild(_table);
+					return;
+				}
+
+				// 创建表头
+				for (var x = 0; x < th_list.length; x++) {
+					_th = document.createElement("th"); //创建列
+					var node = document.createTextNode(th_list[x]);
+					_th.appendChild(node);
+					_tr1.appendChild(_th);
+				}
+				_thead.appendChild(_tr1);
+
+				// 创建数据
+				for (var i = 0; i < list.length; i++) {
+					var _tr = document.createElement("tr"); //创建行
+
+					for (var j = 0; j < list[i].length; j++) {
+
+						var _td = document.createElement("td"); //创建列
+						_tr.appendChild(_td);
+						var node = document.createTextNode(list[i][j]);
+						_td.appendChild(node)
+					}
+					_thead.appendChild(_tr);
+				}
+				_table.appendChild(_thead);
+				$('result').appendChild(_table);
+				_table.setAttribute("class", "layui-table");
+			}
+
+			// 输出excel表格
+			function print_excel() {
+
+			}
+		}(window)
+	</script>
+</html>
